@@ -16,6 +16,8 @@ import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 
 function Header({type}) {
+  
+  const [destination, setDestination] = useState("");
   const [openDate, setOpenDate] = useState(false);
   const [date, setDate] = useState([
     {
@@ -28,7 +30,7 @@ function Header({type}) {
   const [openOptions, setOpenOptions] = useState(false);
   const [options, setOptions] = useState({
     adult: 1,
-    childern: 0,
+    children: 0,
     room: 1,
   });
 
@@ -40,6 +42,11 @@ function Header({type}) {
       };
     });
   };
+
+  const navigate = useNavigate();
+  const handleSearch = () =>{
+    navigate('/hotels' , {state:{destination,date,options}})
+  }
 
   return (
     <div className="header">
@@ -88,6 +95,7 @@ function Header({type}) {
                 type="text"
                 placeholder="Where are you going?"
                 className="headerSearchInput"
+                onChange={(e) => setDestination(e.target.value)}
               />
             </div>
             <div className="headerSearchItem">
@@ -116,7 +124,7 @@ function Header({type}) {
               <span
                 onClick={() => setOpenOptions(!openOptions)}
                 className="headerSearchText"
-              >{` ${options.adult} Adults • ${options.childern} Childern • ${options.room} Room`}
+              >{` ${options.adult} Adults • ${options.children} children • ${options.room} Room`}
               </span>
               {openOptions && <div className="options">
                 <div className="optionItem">
@@ -137,14 +145,14 @@ function Header({type}) {
                   <span className="optionText">Children</span>
                   <div className="optionCounter">
                     <button
-                      disabled={options.childern <= 1}
+                      disabled={options.children <= 1}
                       className="optionCounterButton"
-                      onClick={() => handleOption("childern", "d")}
+                      onClick={() => handleOption("children", "d")}
                     >
                       -
                     </button>
-                    <span className="optionCounterNumber">{options.childern}</span>
-                    <button onClick={() => handleOption("childern", "i")} className="optionCounterButton">+</button>
+                    <span className="optionCounterNumber">{options.children}</span>
+                    <button onClick={() => handleOption("children", "i")} className="optionCounterButton">+</button>
                   </div>
                 </div>
                 <div className="optionItem">
@@ -164,7 +172,7 @@ function Header({type}) {
               </div>}
             </div>
             <div className="headerSearchItem">
-              <button className="headerBtn">Search</button>
+              <button className="headerBtn" onClick={handleSearch}>Search</button>
             </div>
           </div>
         </>}
