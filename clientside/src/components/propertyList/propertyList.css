@@ -28,3 +28,7 @@
     font-size: 14px;
     font-weight: 300;
   }
+
+  h1{
+    text-transform: capitalize;
+  }
